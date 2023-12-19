@@ -4,6 +4,8 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 import cloud.inclusion.test.domain.model.Problem;
+import cloud.inclusion.test.domain.model.ProblemCase;
+import cloud.inclusion.test.infrastructure.adapter.in.rest.dto.ProblemCaseRequestDto;
 import cloud.inclusion.test.infrastructure.adapter.in.rest.dto.ProblemRequestDto;
 import cloud.inclusion.test.infrastructure.adapter.in.rest.dto.ProblemResponseDto;
 import org.mapstruct.Mapper;
@@ -16,6 +18,9 @@ public interface RestProblemMapper {
 
   @Mapping(target = "id", ignore = true)
   Problem toDomain(ProblemRequestDto problemRequestDto);
+
+  @Mapping(target = "result", ignore = true)
+  ProblemCase toCaseDomain(ProblemCaseRequestDto problemCaseRequestDto);
 
 }
 
