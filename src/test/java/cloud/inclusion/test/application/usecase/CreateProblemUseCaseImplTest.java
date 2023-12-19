@@ -12,6 +12,7 @@ import cloud.inclusion.test.domain.port.in.CreateProblemUseCase;
 import cloud.inclusion.test.domain.port.out.ProblemRepositoryOut;
 import cloud.inclusion.test.infrastructure.adapter.out.persistance.gateway.ProblemRepositoryOutImpl;
 import cloud.inclusion.test.infrastructure.config.exceptions.ConstraintViolationException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -47,7 +48,7 @@ class CreateProblemUseCaseImplTest {
             .n(12345)
             .build()))
         .build();
-    var problemSaved = Problem.builder()
+    var problemSaved1 = Problem.builder()
         .id(UUID.randomUUID())
         .amount(1)
         .cases(List.of(ProblemCase.builder()
@@ -56,19 +57,34 @@ class CreateProblemUseCaseImplTest {
             .n(12345)
             .build()))
         .build();
+    var problemSaved2 = Problem.builder()
+        .id(UUID.randomUUID())
+        .amount(1)
+        .cases(List.of(ProblemCase.builder()
+            .x(5)
+            .y(0)
+            .n(4)
+            .build()))
+        .build();
+    var problemSavedIterations = new LinkedList<>(
+        List.of(Mono.just(problemSaved1), Mono.just(problemSaved2)));
 
     when(this.problemRepositoryOut.save(any(Problem.class)))
-        .thenReturn(Mono.just(problemSaved));
+        .thenAnswer(invocationOnMock -> problemSavedIterations.poll());
 
     // Act
-    var result = this.createProblemUseCase.create(problemRequest);
+    var result1 = this.createProblemUseCase.create(problemRequest);
+    var result2 = this.createProblemUseCase.create(problemRequest);
 
     // Assert
-    StepVerifier.create(result)
+    StepVerifier.create(result1)
+        .expectNextMatches(Objects::nonNull)
+        .verifyComplete();
+    StepVerifier.create(result2)
         .expectNextMatches(Objects::nonNull)
         .verifyComplete();
 
-    verify(this.problemRepositoryOut, times(1)).save(any(Problem.class));
+    verify(this.problemRepositoryOut, times(2)).save(any(Problem.class));
   }
 
   @Test
