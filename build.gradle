@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
+    id "jacoco"
+    id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'cloud.inclusion'
@@ -39,4 +41,20 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy(jacocoTestReport)
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "ssuazaa_inclusion-cloud-test"
+        property 'sonar.organization', 'ssuazaa'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.gradle.skipCompile', 'true'
+    }
 }
