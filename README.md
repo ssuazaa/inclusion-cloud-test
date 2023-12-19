@@ -3,6 +3,7 @@
 ### Tecnologías:
 
 * Java 17
+* Gradle 8.5
 * Spring Boot 3.2.0
 * MongoDB Embebido 6.0.3
 * Arquitectura Hexagonal
