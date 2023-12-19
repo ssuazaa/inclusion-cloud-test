@@ -1,5 +1,14 @@
 # Documentación
 
+### Tecnologías:
+
+* Java 11
+* Gradle 8.5
+* Spring Boot 2.7.8
+* MongoDB Embebido 4.0.21
+* Arquitectura Hexagonal
+* Programación Reactiva (Spring WebFlux)
+
 ### 0. Opcional: 
 Existe un branch llamado java-17 que cuenta con la versión de Spring Boot 3.2.0
 
@@ -8,8 +17,8 @@ Existe un branch llamado java-17 que cuenta con la versión de Spring Boot 3.2.0
 Seguir los siguientes pasos:
 
 * Clonar repositorio:
-  * git clone https://github.com/ssuazaa/inclusion-cloud-test
-  * ejecutar el comando <code>./gradlew bootRun</code>
+* git clone https://github.com/ssuazaa/inclusion-cloud-test
+* ejecutar el comando <code>./gradlew bootRun</code>
 
 ### 2. Documentación de la api
 
