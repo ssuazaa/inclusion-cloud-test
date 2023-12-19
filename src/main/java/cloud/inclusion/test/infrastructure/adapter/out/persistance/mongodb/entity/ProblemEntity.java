@@ -1,8 +1,21 @@
 package cloud.inclusion.test.infrastructure.adapter.out.persistance.mongodb.entity;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-public record ProblemEntity(@MongoId String id, Integer amount, List<ProblemCaseEntity> cases) {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProblemEntity {
+
+  @MongoId
+  private String id;
+  private Integer amount;
+  private List<ProblemCaseEntity> cases;
 
 }

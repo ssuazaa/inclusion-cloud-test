@@ -1,5 +1,8 @@
 # Documentación
 
+### 0. Opcional: 
+Existe un branch llamado java-17 que cuenta con la versión de Spring Boot 3.2.0
+
 ### 1. Ejecución de la api:
 
 Seguir los siguientes pasos:

@@ -1,9 +1,18 @@
 package cloud.inclusion.test.infrastructure.adapter.in.rest.dto;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
-public record ProblemRequestDto(Integer amount, List<ProblemCaseRequestDto> cases) {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProblemRequestDto {
+
+  private Integer amount;
+  private List<ProblemCaseRequestDto> cases;
 
 }

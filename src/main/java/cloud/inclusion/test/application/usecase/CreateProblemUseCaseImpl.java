@@ -6,6 +6,7 @@ import cloud.inclusion.test.domain.port.in.CreateProblemUseCase;
 import cloud.inclusion.test.domain.port.out.ProblemRepositoryOut;
 import cloud.inclusion.test.infrastructure.config.exceptions.ConstraintViolationException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import reactor.core.publisher.Mono;
 
 public class CreateProblemUseCaseImpl implements CreateProblemUseCase {
@@ -21,20 +22,20 @@ public class CreateProblemUseCaseImpl implements CreateProblemUseCase {
     return validateCases(problem)
         .then(operateCases(problem))
         .flatMap(problemRepositoryOut::save)
-        .map(Problem::id);
+        .map(Problem::getId);
   }
 
   private Mono<Void> validateCases(Problem problem) {
-    if (problem.amount() != problem.cases().size()) {
+    if (problem.getAmount() != problem.getCases().size()) {
       return Mono.error(() -> new ConstraintViolationException("CASES_AMOUNT_INVALID", ""));
     }
     return Mono.empty();
   }
 
   private Mono<Problem> operateCases(Problem problem) {
-    var casesSolved = problem.cases().stream()
+    var casesSolved = problem.getCases().stream()
         .map(this::operateCase)
-        .toList();
+        .collect(Collectors.toList());
     var problemSolved = problem.toBuilder()
         .id(UUID.randomUUID())
         .cases(casesSolved)
@@ -43,9 +44,10 @@ public class CreateProblemUseCaseImpl implements CreateProblemUseCase {
   }
 
   private ProblemCase operateCase(ProblemCase problemCase) {
-    var result = (problemCase.n() / problemCase.x()) * problemCase.x() + problemCase.y();
-    if (result > problemCase.n()) {
-      result -= problemCase.x();
+    var result =
+        (problemCase.getN() / problemCase.getX()) * problemCase.getX() + problemCase.getY();
+    if (result > problemCase.getN()) {
+      result -= problemCase.getX();
     }
     return problemCase.toBuilder()
         .result(result)

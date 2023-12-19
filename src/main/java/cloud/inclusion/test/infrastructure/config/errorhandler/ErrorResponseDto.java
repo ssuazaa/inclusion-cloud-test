@@ -1,11 +1,19 @@
 package cloud.inclusion.test.infrastructure.config.errorhandler;
 
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
-public record ErrorResponseDto(String key,
-                               String message,
-                               LocalDateTime dateTime) {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorResponseDto {
+
+  private String key;
+  private String message;
+  private LocalDateTime dateTime;
 
 }
