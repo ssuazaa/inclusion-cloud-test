@@ -1,12 +1,20 @@
 # Documentación
 
+### Tecnologías:
+
+* Java 17
+* Spring Boot 3.2.0
+* MongoDB Embebido 6.0.3
+* Arquitectura Hexagonal
+* Programación Reactiva (Spring WebFlux)
+
 ### 1. Ejecución de la api:
 
 Seguir los siguientes pasos:
 
 * Clonar repositorio:
-  * git clone https://github.com/ssuazaa/inclusion-cloud-test
-  * ejecutar el comando <code>./gradlew bootRun</code>
+* git clone https://github.com/ssuazaa/inclusion-cloud-test
+* ejecutar el comando <code>./gradlew bootRun</code>
 
 ### 2. Documentación de la api
 
