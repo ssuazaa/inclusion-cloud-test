@@ -40,12 +40,20 @@ class CreateProblemUseCaseImplTest {
   @DisplayName("testCreate() -> Good case")
   void testCreate() {
     // Arrange
-    var problemRequest = Problem.builder()
+    var problemRequest1 = Problem.builder()
         .amount(1)
         .cases(List.of(ProblemCase.builder()
             .x(7)
             .y(5)
             .n(12345)
+            .build()))
+        .build();
+    var problemRequest2 = Problem.builder()
+        .amount(1)
+        .cases(List.of(ProblemCase.builder()
+            .x(5)
+            .y(0)
+            .n(4)
             .build()))
         .build();
     var problemSaved1 = Problem.builder()
@@ -73,8 +81,8 @@ class CreateProblemUseCaseImplTest {
         .thenAnswer(invocationOnMock -> problemSavedIterations.poll());
 
     // Act
-    var result1 = this.createProblemUseCase.create(problemRequest);
-    var result2 = this.createProblemUseCase.create(problemRequest);
+    var result1 = this.createProblemUseCase.create(problemRequest1);
+    var result2 = this.createProblemUseCase.create(problemRequest2);
 
     // Assert
     StepVerifier.create(result1)
