@@ -4,7 +4,7 @@
 
 * Java 11
 * Gradle 8.5
-* Spring Boot 2.7.8
+* Spring Boot 2.7.18
 * MongoDB Embebido 4.0.21
 * Arquitectura Hexagonal
 * Programación Reactiva (Spring WebFlux)
