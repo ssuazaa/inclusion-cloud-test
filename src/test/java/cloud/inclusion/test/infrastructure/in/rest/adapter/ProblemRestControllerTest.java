@@ -27,6 +27,7 @@ import cloud.inclusion.test.infrastructure.config.errorhandler.ErrorResponseDto;
 import cloud.inclusion.test.infrastructure.config.exceptions.ObjectNotFoundException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,32 +62,31 @@ class ProblemRestControllerTest {
         .thenAnswer(invocation -> {
           Problem problem = invocation.getArgument(0);
           return ProblemResponseDto.builder()
-              .id(problem.id())
-              .amount(problem.amount())
-              .cases(problem.cases().stream()
+              .id(problem.getId())
+              .amount(problem.getAmount())
+              .cases(problem.getCases().stream()
                   .map((ProblemCase problemCase) -> ProblemCaseResponseDto.builder()
-                      .x(problemCase.x())
-                      .y(problemCase.y())
-                      .n(problemCase.n())
-                      .result(problemCase.result())
+                      .x(problemCase.getX())
+                      .y(problemCase.getY())
+                      .n(problemCase.getN())
+                      .result(problemCase.getResult())
                       .build())
-                  .toList())
+                  .collect(Collectors.toList()))
               .build();
         });
     when(this.restProblemMapper.toDomain(any(ProblemRequestDto.class)))
         .thenAnswer(invocation -> {
           ProblemRequestDto problemRequestDto = invocation.getArgument(0);
           return Problem.builder()
-              //.id(UUID.randomUUID())
-              .amount(problemRequestDto.amount())
-              .cases(problemRequestDto.cases().stream()
+              .amount(problemRequestDto.getAmount())
+              .cases(problemRequestDto.getCases().stream()
                   .map((ProblemCaseRequestDto problemCaseRequestDto) -> ProblemCase.builder()
-                      .x(problemCaseRequestDto.x())
-                      .y(problemCaseRequestDto.y())
-                      .n(problemCaseRequestDto.n())
+                      .x(problemCaseRequestDto.getX())
+                      .y(problemCaseRequestDto.getY())
+                      .n(problemCaseRequestDto.getN())
                       .result(0)
                       .build())
-                  .toList())
+                  .collect(Collectors.toList()))
               .build();
         });
   }
@@ -122,9 +122,9 @@ class ProblemRestControllerTest {
     assertFalse(response.isEmpty());
     assertAll("Validate each element", () -> {
       for (var i = 0; i < listOfProblems.size(); i++) {
-        assertEquals(response.get(i).id(), listOfProblems.get(i).id());
-        assertEquals(response.get(i).amount(), listOfProblems.get(i).amount());
-        assertEquals(response.get(i).cases().size(), listOfProblems.get(i).cases().size());
+        assertEquals(response.get(i).getId(), listOfProblems.get(i).getId());
+        assertEquals(response.get(i).getAmount(), listOfProblems.get(i).getAmount());
+        assertEquals(response.get(i).getCases().size(), listOfProblems.get(i).getCases().size());
       }
     });
 
@@ -184,8 +184,8 @@ class ProblemRestControllerTest {
 
     // Assert
     assertNotNull(response);
-    assertThat(problemSaved.id()).isEqualTo(response.id());
-    assertThat(problemSaved.amount()).isEqualTo(response.amount());
+    assertThat(problemSaved.getId()).isEqualTo(response.getId());
+    assertThat(problemSaved.getAmount()).isEqualTo(response.getAmount());
 
     verify(this.findProblemUseCase, times(1)).findById(any(UUID.class));
     verify(this.restProblemMapper, times(1)).toResponse(any(Problem.class));
@@ -211,7 +211,7 @@ class ProblemRestControllerTest {
 
     // Assert
     assertNotNull(response);
-    assertThat(response.key()).isEqualTo("PROBLEM_NOT_FOUND");
+    assertThat(response.getKey()).isEqualTo("PROBLEM_NOT_FOUND");
 
     verify(this.findProblemUseCase, times(1)).findById(any(UUID.class));
     verify(this.restProblemMapper, times(0)).toResponse(any(Problem.class));

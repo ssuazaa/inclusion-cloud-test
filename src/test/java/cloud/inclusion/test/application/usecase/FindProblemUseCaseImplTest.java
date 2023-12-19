@@ -116,9 +116,13 @@ class FindProblemUseCaseImplTest {
 
     // Assert
     StepVerifier.create(result)
-        .expectErrorMatches((Throwable throwable) ->
-            throwable instanceof ObjectNotFoundException exception
-                && exception.getKey().equals("PROBLEM_NOT_FOUND"))
+        .expectErrorMatches((Throwable throwable) -> {
+          if (throwable instanceof ObjectNotFoundException) {
+            var exception = (ObjectNotFoundException) throwable;
+            return exception.getKey().equals("PROBLEM_NOT_FOUND");
+          }
+          return false;
+        })
         .verify();
 
     verify(this.problemRepositoryOut, times(1)).findById(any(UUID.class));

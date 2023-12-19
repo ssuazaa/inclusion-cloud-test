@@ -113,9 +113,13 @@ class CreateProblemUseCaseImplTest {
 
     // Assert
     StepVerifier.create(result)
-        .expectErrorMatches((Throwable throwable) ->
-            throwable instanceof ConstraintViolationException exception
-                && exception.getKey().equals("CASES_AMOUNT_INVALID"))
+        .expectErrorMatches((Throwable throwable) -> {
+          if (throwable instanceof ConstraintViolationException) {
+            var exception = (ConstraintViolationException) throwable;
+            return exception.getKey().equals("CASES_AMOUNT_INVALID");
+          }
+          return false;
+        })
         .verify();
 
     verify(this.problemRepositoryOut, times(0)).save(any(Problem.class));
